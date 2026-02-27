@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: brooke-fastmoss
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn --bind 0.0.0.0:$PORT --workers 2 application:app
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0
+      - key: FASTMOSS_API_KEY
+        sync: false  # Set in Render dashboard
+      - key: AWS_REGION
+        value: us-east-1
+      - key: AWS_ACCESS_KEY_ID
+        sync: false  # Set in Render dashboard
+      - key: AWS_SECRET_ACCESS_KEY
+        sync: false  # Set in Render dashboard
+      - key: S3_BUCKET
+        value: content-pipeline-raw
+      - key: DYNAMODB_TABLE
+        value: MediaVault_Metadata
+      - key: TEST_MODE
+        value: true
+      - key: TEST_BATCH_SIZE
+        value: "5"
